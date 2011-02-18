@@ -6,9 +6,9 @@ module Searchlogic
           alias_method_chain :send, :searchlogic
         end
       end
-      
+
       def send_with_searchlogic(method, *args)
-        if !proxy_reflection.klass.column_names.include?(method) && !proxy_respond_to?(method) && !proxy_reflection.options[:polymorphic] && proxy_reflection.klass.condition?(method)
+        if !proxy_reflection.klass.column_names.include?(method.to_s) && !proxy_respond_to?(method) && !proxy_reflection.options[:polymorphic] && proxy_reflection.klass.condition?(method)
           proxy_reflection.klass.send(method, *args)
         else
           send_without_searchlogic(method, *args)
